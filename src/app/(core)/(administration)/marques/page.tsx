@@ -16,6 +16,7 @@ export default function Marques()
         window?.location?.reload();
     }
 
+
     function Actions(row: any) {
         return (
             <>

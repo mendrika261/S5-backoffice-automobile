@@ -16,6 +16,7 @@ export default function Utilisateurs() {
         window?.location?.reload();
     }
 
+
     function Actions(row: any) {
         return (
             <>
