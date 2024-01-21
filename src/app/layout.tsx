@@ -31,9 +31,12 @@ export default function RootLayout({
     <html lang="fr">
       <body>
           <Loading />
-          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js"}/>
-          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/demo.min.js"}/>
-          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/demo-theme.min.js"}/>
+          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js"}
+                  strategy="afterInteractive"/>
+          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/demo.min.js"}
+                  strategy="afterInteractive"/>
+          <Script src={"https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/demo-theme.min.js"}
+                  strategy="afterInteractive"/>
           <Script src={"https://code.jquery.com/jquery-3.6.0.min.js"}
                   strategy="beforeInteractive"/>
           <Script src="/static/js/parsley/parsley.min.js" strategy="beforeInteractive"/>

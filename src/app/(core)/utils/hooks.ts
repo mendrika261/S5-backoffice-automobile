@@ -1,20 +1,20 @@
-import {useEffect, useState} from "react";
+'use client';
+
+import {Dispatch, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
-const AXIOS_FORM_HEADER = {
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
-};
 
-export function useGet(url: string): [any] {
+export function useGet(url: string): [any, Dispatch<any>] {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        AXIOS.get(url)
+        AXIOS.get(url, {
+            headers: {
+                'Authorization': 'Bearer ' + window?.localStorage?.getItem('token')
+            }
+        })
             .then(function (response: any) {
                 setData(response.data.data);
                 if (response.data.message !== undefined && response.data.message !== null)
@@ -22,21 +22,72 @@ export function useGet(url: string): [any] {
             })
             .catch(function (error: any) {
                 console.log(error);
-                toast.error(DEFAULT_ERROR_MESSAGE);
-            })
+                if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                    toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+                else
+                    toast.error(DEFAULT_ERROR_MESSAGE);
+            });
     }, [url]);
 
-    return [data];
+    return [data, setData];
 }
 
-export function sendPost(url: string, form: any): any {
-    AXIOS.post(url, form, AXIOS_FORM_HEADER)
+export async function sendPost(url: string, form: any) {
+    await AXIOS.post(url, form, {
+        headers: {
+            'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
         .then(function (response: any) {
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
         .catch(function (error: any) {
             console.log(error);
-            toast.error(DEFAULT_ERROR_MESSAGE);
+            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+            else
+                toast.error(DEFAULT_ERROR_MESSAGE);
+        });
+}
+
+export async function sendPut(url: string, form: any) {
+    await AXIOS.put(url, form, {
+        headers: {
+            'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+        .then(function (response: any) {
+            if (response.data.message !== undefined && response.data.message !== null)
+                toast(response.data.message, {type: response.data.status});
         })
+        .catch(function (error: any) {
+            console.log(error);
+            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+            else
+                toast.error(DEFAULT_ERROR_MESSAGE);
+        });
+}
+
+export async function sendDelete(url: string) {
+    await AXIOS.delete(url, {
+        headers: {
+            'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+        .then(function (response: any) {
+            if (response.data.message !== undefined && response.data.message !== null)
+                toast(response.data.message, {type: response.data.status});
+        })
+        .catch(function (error: any) {
+            console.log(error);
+            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+            else
+                toast.error(DEFAULT_ERROR_MESSAGE);
+        });
 }
