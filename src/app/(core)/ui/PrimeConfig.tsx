@@ -2,8 +2,6 @@
 import {addLocale} from "primereact/api";
 import frPrimeReact from "@/app/(core)/ui/fr.json";
 import {useEffect, useState} from "react";
-import $ from "jquery";
-import "parsleyjs";
 
 
 export default function PrimeConfig() {
@@ -28,8 +26,10 @@ export default function PrimeConfig() {
                 trigger: 'change'
             });
 
+            // @ts-ignore
             $('#loader-div').fadeOut(300);
         }
+        // @ts-ignore
         $('#loader-div').fadeOut(300);
     });
     return(<>
