@@ -11,10 +11,11 @@ export default function Marques()
 {
     const [data] = useGet(API_URL+"marques");
 
-    function Delete(id: string) {
-        sendDelete(`${API_URL}marques/${id}`);
+    async function Delete(id: string) {
+        await sendDelete(`${API_URL}marques/${id}`);
         window?.location?.reload();
     }
+
 
     function Actions(row: any) {
         return (

@@ -11,10 +11,11 @@ import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
 export default function Utilisateurs() {
     const [data, setData] = useGet(API_URL + 'utilisateurs');
 
-    function Delete(id: string) {
-        sendDelete(`${API_URL}utilisateurs/${id}`);
+    async function Delete(id: string) {
+        await sendDelete(`${API_URL}utilisateurs/${id}`);
         window?.location?.reload();
     }
+
 
     function Actions(row: any) {
         return (
