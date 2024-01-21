@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../bo_automobile.iml" filepath="$PROJECT_DIR$/../bo_automobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/S5-backoffice-automobile.iml" filepath="$PROJECT_DIR$/.idea/S5-backoffice-automobile.iml" />
     </modules>
   </component>
 </project>
