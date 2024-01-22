@@ -6,7 +6,6 @@ import {API_URL} from "@/app/config";
 import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
-import {useEffect} from "react";
 
 export default function ModifierEnergie(){
     const params = useParams<{id:string}>();
@@ -27,7 +26,7 @@ export default function ModifierEnergie(){
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Modifier une energie
+                                Modifier une énergie
                             </h2>
                         </div>
                     </div>
@@ -39,14 +38,14 @@ export default function ModifierEnergie(){
                         <form className="card" id="form" onSubmit={submit}>
                             <div className="card-header">
                                 <Link href="/energies" className="btn btn-primary">
-                                    Liste des energies <FaIcon icon={faList} />
+                                    Liste des énergies <FaIcon icon={faList} />
                                 </Link>
                             </div>
                             <div className="card-body overflow-hidden">
                                 <div className="row mb-3">
-                                    <div className="col-6">
+                                    <div className="col-12">
                                         <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Boite automatique" required
+                                        <input type="text" className="form-control" placeholder="essence" required
                                                onChange={(e) => {setData({...data, nom: e.target.value,})}}
                                                value={data.nom}
                                         />

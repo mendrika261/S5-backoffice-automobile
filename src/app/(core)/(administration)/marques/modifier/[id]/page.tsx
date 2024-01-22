@@ -44,7 +44,7 @@ export default function ModifierUtilisateur(){
                             </div>
                             <div className="card-body overflow-hidden">
                                 <div className="row mb-3">
-                                    <div className="col-6">
+                                    <div className="col-12">
                                         <label className="form-label">Nom</label>
                                         <input type="text" className="form-control" placeholder="Peugeot" required
                                                onChange={(e) => {setData({...data, nom: e.target.value,})}}

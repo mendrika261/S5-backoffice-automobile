@@ -1,22 +1,21 @@
-'use client';
+"use client";
 
-import {useParams} from "next/navigation";
-import {sendPost, sendPut, useGet} from "@/app/(core)/utils/hooks";
-import {API_URL} from "@/app/config";
 import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
-import {faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
-import {useEffect} from "react";
+import {faEdit, faList} from "@fortawesome/free-solid-svg-icons";
+import {sendPost, sendPut, useGet} from "@/app/(core)/utils/hooks";
+import {API_URL} from "@/app/config";
+import {useParams} from "next/navigation";
 
-export default function ModifierUtilisateur(){
+export default function ModifierOption() {
     const params = useParams<{id:string}>();
-    const [data, setData] = useGet(API_URL+ 'marques/' + params.id);
+    const [data, setData] = useGet(API_URL + 'options/' + params.id, true);
 
     async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        await sendPut(API_URL + 'marques/' + params.id, data);
+        await sendPut(API_URL + 'options/' + params.id, data);
         submitButton.classList.remove("btn-loading");
     }
 
@@ -27,40 +26,64 @@ export default function ModifierUtilisateur(){
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Modifier une marque
+                                Modifier une option
                             </h2>
                         </div>
                     </div>
                 </div>
             </div>
             {data &&
-                <div className="page-body">
-                    <div className="container-xl">
-                        <form className="card" id="form" onSubmit={submit}>
-                            <div className="card-header">
-                                <Link href="/marques" className="btn btn-primary">
-                                    Liste des marques <FaIcon icon={faList} />
-                                </Link>
-                            </div>
-                            <div className="card-body overflow-hidden">
-                                <div className="row mb-3">
-                                    <div className="col-6">
-                                        <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Peugeot" required
-                                               onChange={(e) => {setData({...data, nom: e.target.value,})}}
-                                               value={data.nom}
-                                        />
-                                    </div>
+            <div className="page-body">
+                <div className="container-xl">
+                    <form className="card" id="form" onSubmit={submit}>
+                        <div className="card-header">
+                            <Link href="/options" className="btn btn-primary">
+                                Liste des options <FaIcon icon={faList}/>
+                            </Link>
+                        </div>
+                        <div className="card-body overflow-hidden">
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <label className="form-label">Designation</label>
+                                    <input type="text" className="form-control" placeholder="mode" required
+                                           value={data.designation}
+                                           onChange={(e) => {
+                                               setData({...data, designation: e.target.value,})
+                                           }}
+                                    />
                                 </div>
                             </div>
-                            <div className="card-footer d-flex justify-content-end">
-                                <button type="submit" className="btn btn-warning" id="submit">
-                                    Modifier <FaIcon icon={faPencilAlt}/>
-                                </button>
+                            <div className="row mb-3">
+                                <div className="col-3">
+                                    <label className="form-label">Type de valeur</label>
+                                    <select className="form-select" required value={data.typeValeur}
+                                            onChange={(e) => {
+                                                setData({...data, typeValeur: e.target.value,})
+                                            }}>
+                                        <option value="string">Texte</option>
+                                        <option value="number">Nombre</option>
+                                    </select>
+                                </div>
+                                <div className="col-9">
+                                    <label className="form-label">Valeurs possible</label>
+                                    <input type="text" className="form-control" placeholder="sport,eco,normal" required
+                                           pattern={"[a-zA-Z0-9,]+"}
+                                           value={data.valeurs}
+                                           onChange={(e) => {
+                                               setData({...data, valeurs: e.target.value,})
+                                           }}
+                                    />
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div className="card-footer d-flex justify-content-end">
+                            <button type="submit" className="btn btn-warning" id="submit">
+                                Modifier <FaIcon icon={faEdit}/>
+                            </button>
+                        </div>
+                    </form>
                 </div>
+            </div>
             }
         </>
     )

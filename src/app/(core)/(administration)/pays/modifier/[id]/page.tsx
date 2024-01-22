@@ -39,19 +39,35 @@ export default function ModifierPays(){
                         <form className="card" id="form" onSubmit={submit}>
                             <div className="card-header">
                                 <Link href="/pays" className="btn btn-primary">
-                                    Liste des pays <FaIcon icon={faList} />
+                                    Liste des pays <FaIcon icon={faList}/>
                                 </Link>
                             </div>
                             <div className="card-body overflow-hidden">
                                 <div className="row mb-3">
-                                    <div className="col-6">
+                                    <div className="col-12">
                                         <label className="form-label">Nom</label>
                                         <input type="text" className="form-control" placeholder="Madagascar" required
-                                               onChange={(e) => {setData({...data, nom: e.target.value,})}}
-                                               value={data.nom}
+                                               onChange={(e) => {
+                                                   setData({...data, nom: e.target.value,})
+                                               }}
                                                minLength={6}
-                                               maxLength={20}
+                                               value={data.nom}
                                         />
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <div className="col-1">
+                                        <label className="form-label">Drapeau</label>
+                                        <span className={`flag flag-country-${data.code.toLowerCase()}`}></span>
+                                    </div>
+                                    <div className="col-11">
+                                        <label className="form-label">Code</label>
+                                        <input type="text" className="form-control" placeholder="mg" required
+                                               onChange={(e) => {
+                                                   setData({...data, code: e.target.value,})
+                                               }}
+                                               value={data.code}
+                                               minLength={2}/>
                                     </div>
                                 </div>
                             </div>

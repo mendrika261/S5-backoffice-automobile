@@ -10,6 +10,7 @@ import {API_URL} from "@/app/config";
 export default function AjouterPays() {
     const [data, setData] = useState({
         nom: '',
+        code: '',
     });
 
     async function submit(object: any) {
@@ -46,10 +47,25 @@ export default function AjouterPays() {
                                 <div className="col-12">
                                     <label className="form-label">Nom</label>
                                     <input type="text" className="form-control" placeholder="Madagascar" required
-                                           onChange={(e) => {setData({...data, nom: e.target.value,})}}
+                                           onChange={(e) => {
+                                               setData({...data, nom: e.target.value,})
+                                           }}
                                            minLength={6}
-                                           maxLength={20}
                                     />
+                                </div>
+                            </div>
+                            <div className="row mb-3">
+                                <div className="col-1">
+                                    <label className="form-label">Drapeau</label>
+                                    <span className={`flag flag-country-${data.code.toLowerCase()}`}></span>
+                                </div>
+                                <div className="col-11">
+                                    <label className="form-label">Code</label>
+                                    <input type="text" className="form-control" placeholder="mg" required
+                                           onChange={(e) => {
+                                               setData({...data, code: e.target.value,})
+                                           }}
+                                           minLength={2}/>
                                 </div>
                             </div>
                         </div>

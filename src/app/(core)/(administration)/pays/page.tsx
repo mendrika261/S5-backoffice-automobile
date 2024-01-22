@@ -16,6 +16,11 @@ export default function Pays()
         window?.location?.reload();
     }
 
+    function DrapeauTemplate(row: any) {
+        return (
+            <span className={`flag flag-country-${row.code.toLowerCase()}`}></span>
+        );
+    }
 
     function Actions(row: any) {
         return (
@@ -64,6 +69,7 @@ export default function Pays()
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
                                 <Column field="nom" header="Nom" sortable filter/>
+                                <Column header="Drapeau" body={DrapeauTemplate}/>
                                 <Column header="Actions" body={Actions} style={{width: "10%"}}/>
                             </Table>
                         </div>

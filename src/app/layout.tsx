@@ -4,6 +4,7 @@ import './globals.css'
 import 'react-toastify/dist/ReactToastify.css';
 import "@tabler/core/dist/css/tabler.min.css";
 import "@tabler/core/dist/css/demo.min.css";
+import "@tabler/core/dist/css/tabler-flags.css";
 import "select2/dist/css/select2.min.css";
 import "select2-bootstrap-theme/dist/select2-bootstrap.min.css";
 

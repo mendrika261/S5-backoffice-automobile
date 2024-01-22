@@ -27,7 +27,7 @@ export default function AjouterEnergie() {
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Ajouter une boite de vitesse
+                                Ajouter une énergie
                             </h2>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ export default function AjouterEnergie() {
                     <form className="card" id="form" onSubmit={submit}>
                         <div className="card-header">
                             <Link href="/energies" className="btn btn-primary">
-                                Liste des energies <FaIcon icon={faList} />
+                                Liste des énergies <FaIcon icon={faList} />
                             </Link>
                         </div>
                         <div className="card-body overflow-hidden">

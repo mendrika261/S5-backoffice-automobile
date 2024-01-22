@@ -10,8 +10,8 @@ import {API_URL} from "@/app/config";
 export default function AjouterOption() {
     const [data, setData] = useState({
         designation: '',
-        valeur:'',
-        typeValeur:''
+        valeurs:'',
+        typeValeur:'string'
     });
 
     async function submit(object: any) {
@@ -54,22 +54,23 @@ export default function AjouterOption() {
                                     />
                                 </div>
                             </div>
-                        </div>
-                        <div className="card-body overflow-hidden">
                             <div className="row mb-3">
-                                <div className="col-6">
-                                    <label className="form-label">Valeur</label>
-                                    <input type="text" className="form-control" placeholder="sport" required
-                                           onChange={(e) => {
-                                               setData({...data, valeur: e.target.value,})
-                                           }}
-                                    />
+                                <div className="col-3">
+                                    <label className="form-label">Type de valeur</label>
+                                    <select className="form-select" required value="string"
+                                            onChange={(e) => {
+                                                setData({...data, typeValeur: e.target.value,})
+                                            }}>
+                                        <option value="string">Texte</option>
+                                        <option value="number">Nombre</option>
+                                    </select>
                                 </div>
-                                <div className="col-6">
-                                    <label className="form-label">Type</label>
-                                    <input type="text" className="form-control" placeholder="string" required
+                                <div className="col-9">
+                                    <label className="form-label">Valeurs possible</label>
+                                    <input type="text" className="form-control" placeholder="sport,eco,normal" required
+                                           pattern={"[a-zA-Z0-9,]+"}
                                            onChange={(e) => {
-                                               setData({...data, typeValeur: e.target.value,})
+                                               setData({...data, valeurs: e.target.value,})
                                            }}
                                     />
                                 </div>

@@ -7,7 +7,7 @@ import Table from "@/app/(core)/ui/Table";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faEdit, faPlus, faTrashAlt, faWarning} from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
-export default function energies()
+export default function Energies()
 {
     const [data] = useGet(API_URL+"energies");
 
@@ -46,7 +46,7 @@ export default function energies()
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Les energies
+                                Les énergies
                             </h2>
                         </div>
                     </div>

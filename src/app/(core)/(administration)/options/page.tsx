@@ -17,6 +17,15 @@ export default function Options()
         window?.location?.reload();
     }
 
+    function ValeurTemplate(row: any) {
+        return (
+            <>
+                {row.valeurs.split(",").map((valeur: any, index: number) => (
+                    <span key={index} className="badge badge-outline text-azure me-1">{valeur}</span>
+                ))}
+            </>
+        );
+    }
 
     function Actions(row: any) {
         return (
@@ -47,7 +56,7 @@ export default function Options()
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Les options dans une  voiture
+                                Les options dans une voiture
                             </h2>
                         </div>
                     </div>
@@ -65,7 +74,7 @@ export default function Options()
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
                                 <Column field="designation" header="Designation" sortable filter/>
-                                <Column field="valeur" header="Valeur" sortable filter/>
+                                <Column header="Valeurs possible" body={ValeurTemplate} sortable filter/>
                                 <Column field="typeValeur" header="Type" sortable filter/>
                                 <Column header="Actions" body={Actions} style={{width: "10%"}}/>
                             </Table>

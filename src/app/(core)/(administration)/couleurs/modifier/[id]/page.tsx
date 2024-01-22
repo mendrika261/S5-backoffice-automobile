@@ -5,7 +5,7 @@ import {sendPost, sendPut, useGet} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
 import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
-import {faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
+import {faCaretRight, faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
 import {useEffect} from "react";
 
 export default function ModifierCouleur(){
@@ -46,7 +46,7 @@ export default function ModifierCouleur(){
                                 <div className="row mb-3">
                                     <div className="col-6">
                                         <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Boite automatique"
+                                        <input type="text" className="form-control" placeholder="blanc"
                                                required
                                                onChange={(e) => {
                                                    setData({...data, nom: e.target.value,})
@@ -56,12 +56,25 @@ export default function ModifierCouleur(){
                                     </div>
                                     <div className="col-6">
                                         <label className="form-label">Code couleur</label>
-                                        <input type="text" className="form-control" placeholder="#0000" required
+                                        <input type="text" className="form-control" placeholder="#000000" required
+                                               pattern={"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"}
                                                onChange={(e) => {
                                                    setData({...data, codeCouleur: e.target.value,})
                                                }}
                                                value={data.codeCouleur}
                                         />
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <div className={"col-12"}>
+                                        <label className="form-label">Aperçu</label>
+                                        <div className="input-group">
+                                        <span className="input-group-text">
+                                            <FaIcon icon={faCaretRight}/>
+                                        </span>
+                                            <div className="form-control"
+                                                 style={{backgroundColor: data.codeCouleur}}></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

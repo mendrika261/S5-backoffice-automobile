@@ -7,7 +7,7 @@ import Table from "@/app/(core)/ui/Table";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faEdit, faPlus, faTrashAlt, faWarning} from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
-export default function boiteVitesse()
+export default function BoiteVitesse()
 {
     const [data] = useGet(API_URL+"boite_vitesses");
 

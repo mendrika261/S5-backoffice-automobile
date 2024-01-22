@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
-import {faList, faSave} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faCaretRight, faList, faSave} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import {sendPost} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
@@ -54,11 +54,23 @@ export default function AjouterBoiteVitesse() {
                                 </div>
                                 <div className="col-6">
                                     <label className="form-label">Code couleur</label>
-                                    <input type="text" className="form-control" placeholder="#0000" required
+                                    <input type="text" className="form-control" placeholder="#000000" required
+                                           pattern={"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" }
                                            onChange={(e) => {
                                                setData({...data, codeCouleur: e.target.value,})
                                            }}
                                     />
+                                </div>
+                            </div>
+                            <div className="row mb-3">
+                                <div className={"col-12"}>
+                                    <label className="form-label">Aperçu</label>
+                                    <div className="input-group">
+                                        <span className="input-group-text">
+                                            <FaIcon icon={faCaretRight} />
+                                        </span>
+                                        <div className="form-control" style={{backgroundColor: data.codeCouleur}}></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

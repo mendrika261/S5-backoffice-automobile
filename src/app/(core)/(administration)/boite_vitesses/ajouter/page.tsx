@@ -45,7 +45,7 @@ export default function AjouterBoiteVitesse() {
                             <div className="row mb-3">
                                 <div className="col-12">
                                     <label className="form-label">Nom</label>
-                                    <input type="text" className="form-control" placeholder="boite automatique" required
+                                    <input type="text" className="form-control" placeholder="Automatique" required
                                            onChange={(e) => {setData({...data, nom: e.target.value,})}}
                                     />
                                 </div>
