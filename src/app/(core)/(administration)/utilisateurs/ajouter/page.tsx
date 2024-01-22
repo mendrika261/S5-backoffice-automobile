@@ -18,12 +18,12 @@ export default function AjouterUtilisateur() {
         photo: '',
     });
 
-    function submit(object: any) {
+    async function submit(object: any) {
         console.log(data);
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        sendPost(API_URL + 'utilisateurs', data);
+        await sendPost(API_URL + 'utilisateurs', data);
         submitButton.classList.remove("btn-loading");
     }
 

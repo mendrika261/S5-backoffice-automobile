@@ -12,11 +12,11 @@ export default function AjouterUtilisateur() {
         nom: '',
     });
 
-    function submit(object: any) {
+    async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        sendPost(API_URL + 'marques', data);
+        await sendPost(API_URL + 'marques', data);
         submitButton.classList.remove("btn-loading");
     }
 
