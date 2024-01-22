@@ -5,7 +5,7 @@ import {
     faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 
-export const API_URL = 'http://localhost:8080/';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const NAVBAR_MENU = [
     {
@@ -28,19 +28,19 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Commission',
-                link: '/modeles',
+                link: '',
             },
             {
                 name: 'Paiement',
-                link: '/marques',
+                link: '',
             },
             {
                 name: 'Voiture',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Fichier',
-                link: '/pays',
+                link: '',
             },
         ],
     },
@@ -58,7 +58,7 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Sortie',
-                link: '/modeles',
+                link: '',
             },
         ],
     },
@@ -68,27 +68,27 @@ export const NAVBAR_MENU = [
         childrenNav: [
             {
                 name: 'Boite de vitesse',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Couleur',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Energie',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Etat de voiture',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Options',
-                link: '/pays',
+                link: '',
             },
             {
                 name: 'Pays',
-                link: '/pays',
+                link: '',
             },
         ],
     },

@@ -46,7 +46,7 @@ export default function ModifierUtilisateur(){
                                 <div className="row mb-3">
                                     <div className="col-6">
                                         <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Rakoto" required
+                                        <input type="text" className="form-control" placeholder="Peugeot" required
                                                onChange={(e) => {setData({...data, nom: e.target.value,})}}
                                                value={data.nom}
                                         />

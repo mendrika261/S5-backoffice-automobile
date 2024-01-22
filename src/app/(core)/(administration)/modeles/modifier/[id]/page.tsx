@@ -6,24 +6,12 @@ import {API_URL} from "@/app/config";
 import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 export default function ModifierModeles(){
     const params = useParams<{id:string}>();
-    const [data, setData] = useGet(API_URL+ 'modeles/' + params.id);
+    const [data, setData] = useGet(API_URL+ 'modeles/' + params.id, true);
     const [marques,setMarques] = useGet(API_URL+"marques");
-    useEffect(() => {
-        console.log("tato izy e"+ API_URL+ 'modeles/' + params.id);
-
-        if(data!=null && data.marque!=null)
-        {
-            console.log("tato izy");
-            const v=data.marque.id
-            setData({"marque": v})
-        }
-        // Your side effect here
-    }, [data]);
-
 
     async function submit(object: any) {
         object.preventDefault();
@@ -52,36 +40,30 @@ export default function ModifierModeles(){
                         <form className="card" id="form" onSubmit={submit}>
                             <div className="card-header">
                                 <Link href="/modeles" className="btn btn-primary">
-                                    Liste des modeles <FaIcon icon={faList}/>
+                                    Liste des modèles <FaIcon icon={faList}/>
                                 </Link>
                             </div>
                             <div className="card-body overflow-hidden">
                                 <div className="row mb-3">
                                     <div className="col-6">
+                                        <label className="form-label">Marque</label>
+                                        <select className="form-select select2" value={data.marque}
+                                                onChange={(e) => setData({...data, marque: e.target.value})}>
+                                            {marques && marques.map((marque: any) => (
+                                                <option key={marque.id} value={marque.id}>
+                                                    {marque.nom}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-6">
                                         <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Rakoto" required
+                                        <input type="text" className="form-control" placeholder="206" required
                                                onChange={(e) => {
                                                    setData({...data, nom: e.target.value,})
                                                }}
                                                value={data.nom}
                                         />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card-body overflow-hidden">
-                                <div className="row mb-3">
-                                    <div className="col-6">
-                                        <label className="form-label">Marque</label>
-                                         <select className="form-select" name="produit" value={data.marque}
-                                                onChange={(e) => setData({...data, marque: e.target.value})}>
-                                            {marques && marques.map((marque: any) => (
-                                                <option key={marque.id} value={marque.id} >
-                                                    {marque.nom}
-                                                </option>
-                                            ))}
-                                        </select>
-
-
                                     </div>
                                 </div>
                             </div>

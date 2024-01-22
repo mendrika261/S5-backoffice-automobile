@@ -7,6 +7,7 @@ import Table from "@/app/(core)/ui/Table";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faEdit, faPlus, faTrashAlt, faWarning} from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
+
 export default function Modeles()
 {
     const [data] = useGet(API_URL+"modeles");
@@ -46,7 +47,7 @@ export default function Modeles()
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Les modeles de voiture
+                                Les modèles de voiture
                             </h2>
                         </div>
                     </div>
@@ -57,7 +58,7 @@ export default function Modeles()
                     <div className="card">
                         <div className="card-header">
                             <a href="/modeles/ajouter" className={"btn btn-primary"}>
-                                Ajouter un modele
+                                Ajouter un modèle
                                 <FaIcon icon={faPlus} />
                             </a>
                         </div>

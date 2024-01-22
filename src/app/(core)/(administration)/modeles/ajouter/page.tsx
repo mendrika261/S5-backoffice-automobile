@@ -14,11 +14,11 @@ export default function AjouterModele() {
     });
     const [marques,setMarques] = useGet(API_URL+"marques");
 
-    function submit(object: any) {
+    async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        sendPost(API_URL + 'modeles', data);
+        await sendPost(API_URL + 'modeles', data);
         submitButton.classList.remove("btn-loading");
     }
 
@@ -29,7 +29,7 @@ export default function AjouterModele() {
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Ajouter une marque
+                                Ajouter un modèle de voiture
                             </h2>
                         </div>
                     </div>
@@ -40,28 +40,17 @@ export default function AjouterModele() {
                     <form className="card" id="form" onSubmit={submit}>
                         <div className="card-header">
                             <Link href="/modeles" className="btn btn-primary">
-                                Liste des modeles <FaIcon icon={faList}/>
+                                Liste des modèles <FaIcon icon={faList}/>
                             </Link>
                         </div>
                         <div className="card-body overflow-hidden">
                             <div className="row mb-3">
                                 <div className="col-6">
-                                    <label className="form-label">Nom</label>
-                                    <input type="text" className="form-control" placeholder="Rakoto" required
-                                           onChange={(e) => {
-                                               setData({...data, nom: e.target.value,})
-                                           }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card-body overflow-hidden">
-                            <div className="row mb-3">
-                                <div className="col-6">
-                                <label className="form-label">Marque</label>
-                                    <select className="form-select" name="produit"
-                                            onChange={(e) => setData({...data, marque: e.target.value})}>
-                                        <option  value=''>
+                                    <label className="form-label">Marque</label>
+                                    <select className="form-select select2"
+                                            onChange={(e) =>
+                                                setData({...data, marque: e.target.value})}>
+                                        <option value=''>
                                             Aucune
                                         </option>
                                         {marques && marques.map((marque: any) => (
@@ -70,6 +59,14 @@ export default function AjouterModele() {
                                             </option>
                                         ))}
                                     </select>
+                                </div>
+                                <div className="col-6">
+                                    <label className="form-label">Nom</label>
+                                    <input type="text" className="form-control" placeholder="206" required
+                                           onChange={(e) => {
+                                               setData({...data, nom: e.target.value,})
+                                           }}
+                                    />
                                 </div>
                             </div>
                         </div>

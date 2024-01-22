@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
 
-export function useGet(url: string): [any, Dispatch<any>] {
+export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispatch<any>] {
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -16,6 +16,14 @@ export function useGet(url: string): [any, Dispatch<any>] {
             }
         })
             .then(function (response: any) {
+                if (childrenObjectOnlyId === true) {
+                    Object.keys(response.data.data).map((key: any) => {
+                        if (typeof response.data.data[key] === 'object'
+                            && response.data.data[key] !== null
+                            && response.data.data[key].id !== undefined)
+                            response.data.data[key] = response.data.data[key].id;
+                    });
+                }
                 setData(response.data.data);
                 if (response.data.message !== undefined && response.data.message !== null)
                     toast(response.data.message, {type: response.data.status});
@@ -27,7 +35,7 @@ export function useGet(url: string): [any, Dispatch<any>] {
                 else
                     toast.error(DEFAULT_ERROR_MESSAGE);
             });
-    }, [url]);
+    }, [url, childrenObjectOnlyId]);
 
     return [data, setData];
 }

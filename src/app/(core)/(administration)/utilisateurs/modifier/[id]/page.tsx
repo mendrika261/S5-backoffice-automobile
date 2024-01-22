@@ -61,7 +61,7 @@ export default function ModifierUtilisateur(){
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Mot de passe</label>
-                                <input type="text" className="form-control" placeholder="xxxxxxx" required
+                                <input type="text" className="form-control" placeholder="xxxxxxx" required minLength={6}
                                        onChange={(e) => {setData({...data, motDePasse: e.target.value,})}}
                                        value={data.motDePasse}
                                 />
