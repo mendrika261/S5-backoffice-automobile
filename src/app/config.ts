@@ -5,7 +5,7 @@ import {
     faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL = 'http://localhost:8080/';
 
 export const NAVBAR_MENU = [
     {
