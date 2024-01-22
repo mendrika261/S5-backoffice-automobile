@@ -5,7 +5,7 @@ import {
     faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL = "http://localhost:8080/";
 
 export const NAVBAR_MENU = [
     {
@@ -68,15 +68,15 @@ export const NAVBAR_MENU = [
         childrenNav: [
             {
                 name: 'Boite de vitesse',
-                link: '',
+                link: '/boite_vitesses',
             },
             {
                 name: 'Couleur',
-                link: '',
+                link: '/couleurs',
             },
             {
                 name: 'Energie',
-                link: '',
+                link: '/energies',
             },
             {
                 name: 'Etat de voiture',
@@ -84,11 +84,11 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Options',
-                link: '',
+                link: '/options',
             },
             {
                 name: 'Pays',
-                link: '',
+                link: '/pays',
             },
         ],
     },
