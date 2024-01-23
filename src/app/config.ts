@@ -57,8 +57,8 @@ export const NAVBAR_MENU = [
                 link: '/modeles',
             },
             {
-                name: 'Sortie',
-                link: '/sorties',
+                name: 'Sortie de voiture',
+                link: '/sortie_voitures',
             },
         ],
     },
