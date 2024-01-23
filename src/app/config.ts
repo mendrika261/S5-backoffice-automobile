@@ -28,19 +28,19 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Commission',
-                link: '',
+                link: '/commissions',
             },
             {
                 name: 'Paiement',
-                link: '',
+                link: '/paiements',
             },
             {
                 name: 'Voiture',
-                link: '',
+                link: '/voitures',
             },
             {
                 name: 'Fichier',
-                link: '',
+                link: '/fichiers',
             },
         ],
     },
@@ -58,7 +58,7 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Sortie',
-                link: '',
+                link: '/sorties',
             },
         ],
     },
@@ -80,7 +80,7 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Etat de voiture',
-                link: '',
+                link: '/etat_voitures',
             },
             {
                 name: 'Options',
