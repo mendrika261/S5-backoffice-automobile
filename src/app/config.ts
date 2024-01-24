@@ -40,7 +40,7 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Fichier',
-                link: '',
+                link: '/fichiers',
             },
         ],
     },
