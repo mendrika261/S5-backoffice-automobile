@@ -17,10 +17,6 @@ export default function Liste()
         window?.location?.reload();
     }
 
-    function VoitureFilter() {
-
-    }
-
     function Etat(row: any) {
         return (
             <>
@@ -53,7 +49,7 @@ export default function Liste()
         return (
             <>
                 <p className="p-buttonset">
-                    <a href={`/voitures/details/${row.id}`} className={"btn btn-primary btn-icon mx-1"}>
+                    <a href={`/voitures/${row.id}`} className={"btn btn-primary btn-icon mx-1"}>
                         <FaIcon icon={faEye}/>
                     </a>
                     <button data-bs-target={`#/voitures/supprimer/${row.id}`} className={"btn btn-danger btn-icon mx-1"}
