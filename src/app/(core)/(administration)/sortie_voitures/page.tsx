@@ -73,13 +73,13 @@ export default function Liste()
                         </div>
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
-                                <Column field="annee" header="Année" sortable filter/>
+                                <Column field="annee" header="Année" dataType={"numeric"} sortable filter/>
                                 <Column field="modele.marque.nom" header="Marque" sortable filter/>
                                 <Column field="modele.nom" header="Modèle" sortable filter/>
                                 <Column field="pays.nom" header="Pays" body={Pays} sortable filter/>
                                 <Column field="boiteVitesse.nom" header="Boite de vitesse" sortable filter/>
                                 <Column field="energie.nom" header="Energie" sortable filter/>
-                                <Column field="nbrPlace" header="Place" sortable filter/>
+                                <Column field="nbrPlace" header="Place" dataType="numeric" sortable filter/>
                                 <Column header="Actions" body={Actions} style={{width: "10%"}}/>
                             </Table>
                         </div>

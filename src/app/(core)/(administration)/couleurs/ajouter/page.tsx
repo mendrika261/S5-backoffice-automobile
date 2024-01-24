@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faArrowRight, faCaretRight, faList, faSave} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
@@ -38,9 +37,9 @@ export default function AjouterBoiteVitesse() {
                 <div className="container-xl">
                     <form className="card" id="form" onSubmit={submit}>
                         <div className="card-header">
-                            <Link href="/couleurs" className="btn btn-primary">
+                            <a href="/couleurs" className="btn btn-primary">
                                 Liste des couleurs <FaIcon icon={faList} />
-                            </Link>
+                            </a>
                         </div>
                         <div className="card-body overflow-hidden">
                             <div className="row mb-3">
