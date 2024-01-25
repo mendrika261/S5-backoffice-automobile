@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faList, faSave} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
@@ -13,7 +12,7 @@ export default function Fichiers()
 {
     const [file, setFile] = useState<File | null>(null);
     const [data, setData] = useState({
-        etat:0,
+        etat: 0,
         nomAvecChemin: '',
         type: 'image',
     });
@@ -68,8 +67,6 @@ export default function Fichiers()
                         </button>
                     </div>
                 </form>
-
-                {url===''? <>haha</> : <img src={url}/>}
             </div>
         </div>
     </>;

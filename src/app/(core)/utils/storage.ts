@@ -1,12 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getStorage, ref, uploadBytes, uploadBytesResumable} from "firebase/storage";
 
-import {Dispatch, useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import {uuidv4} from "@firebase/util";
-const AXIOS = require('axios').default;
-const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
-
 const firebaseConfig = {
     apiKey: "AIzaSyCvWSkZoh_d17P8yvunpZkZ47b0pXz7Ejg",
     authDomain: "fiara-363ef.firebaseapp.com",
