@@ -16,7 +16,7 @@ export const NAVBAR_MENU = [
     {
         name: 'Annonce',
         icon: faBullhorn,
-        link: '/annonces',
+        link: '/annonces/en-attente',
     },
     {
         name: 'Administration',
