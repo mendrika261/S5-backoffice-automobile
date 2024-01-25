@@ -2,7 +2,8 @@
 
 import {Dispatch, useEffect, useState} from "react";
 import {toast} from "react-toastify";
-
+import {ref, uploadBytesResumable} from "firebase/storage";
+import {storage} from "@/app/(core)/utils/storage";
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
 
@@ -99,3 +100,43 @@ export async function sendDelete(url: string) {
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
 }
+
+
+function isImage(file: File): boolean {
+    const extension = file.name.split('.').pop();
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    return allowedExtensions.includes(<string>extension);
+}
+
+
+export async function upload_photo({file, nom}: { file: File, nom: any }) {
+    // Votre configuration Firebase
+
+    if (!isImage(file)) {
+        toast.error("le fichier n'est pas une image");
+        return null;
+    }
+    const imageRef=ref(storage,nom);
+
+    const uploadTask = uploadBytesResumable(imageRef, file)
+    uploadTask.on('state_changed',
+        (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+            console.log(error);
+            // Handle unsuccessful uploads
+            toast.error(error.message);
+        },
+        () => {
+            // Handle successful uploads on complete
+            console.log('Upload completed successfully');
+            toast.done('Upload completed successfully')
+        }
+    );
+}
+
+
+
