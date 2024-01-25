@@ -27,6 +27,11 @@ export default function PrimeConfig() {
             });
 
             // @ts-ignore
+            /*$('.select2').select2({
+                theme: 'bootstrap4'
+            })*/
+
+            // @ts-ignore
             $('#loader-div').fadeOut(300);
         }
         // @ts-ignore

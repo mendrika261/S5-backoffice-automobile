@@ -5,6 +5,13 @@ export default function ConfirmationModal(
     {id, title, type, message, icon, action, actionButton="Confirmer"}:
     {id: string, title: string, message: string, type: string, icon: IconDefinition, action: any, actionButton: string}
 ) {
+    async function todo() {
+        const button = document.getElementById(`delete-${id}`) as HTMLButtonElement;
+        button.classList.add("btn-loading");
+        await action();
+        button.classList.remove("btn-loading");
+    }
+
     return (
         <div className="modal" id={id} tabIndex={-1} style={{top: "100px"}}>
             <div className="modal-dialog modal-sm" role="document">
@@ -22,11 +29,10 @@ export default function ConfirmationModal(
                                 <div className="col"><a href="#" className="btn w-100" data-bs-dismiss="modal">
                                     Annuler
                                 </a></div>
-                                <div className="col"><a className={`btn btn-${type} w-100`}
-                                                        data-bs-dismiss="modal"
-                                onClick={action}>
+                                <div className="col"><button className={`btn btn-${type} w-100`}
+                                onClick={todo} id={`delete-${id}`}>
                                     {actionButton}
-                                </a></div>
+                                </button></div>
                             </div>
                         </div>
                     </div>

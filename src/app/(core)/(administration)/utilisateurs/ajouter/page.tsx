@@ -18,12 +18,11 @@ export default function AjouterUtilisateur() {
         photo: '',
     });
 
-    function submit(object: any) {
-        console.log(data);
+    async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        sendPost(API_URL + 'utilisateurs', data);
+        await sendPost(API_URL + 'utilisateurs', data);
         submitButton.classList.remove("btn-loading");
     }
 
@@ -65,7 +64,7 @@ export default function AjouterUtilisateur() {
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Mot de passe</label>
-                                <input type="text" className="form-control" placeholder="xxxxxxx" required
+                                <input type="text" className="form-control" placeholder="xxxxxxx" required minLength={6}
                                     onChange={(e) => {setData({...data, motDePasse: e.target.value,})}}
                                 />
                             </div>

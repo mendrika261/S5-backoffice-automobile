@@ -8,15 +8,15 @@ import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faList, faPencilAlt, faSave} from "@fortawesome/free-solid-svg-icons";
 import {useEffect} from "react";
 
-export default function ModifierUtilisateur(){
+export default function Modifier(){
     const params = useParams<{id:string}>();
-    const [data, setData] = useGet(API_URL+ 'marques/' + params.id);
+    const [data, setData] = useGet(API_URL+ 'paiements/' + params.id);
 
     async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        await sendPut(API_URL + 'marques/' + params.id, data);
+        await sendPut(API_URL + 'paiements/' + params.id, data);
         submitButton.classList.remove("btn-loading");
     }
 
@@ -27,7 +27,7 @@ export default function ModifierUtilisateur(){
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Modifier une marque
+                                Modifier un mode de paiement
                             </h2>
                         </div>
                     </div>
@@ -38,17 +38,18 @@ export default function ModifierUtilisateur(){
                     <div className="container-xl">
                         <form className="card" id="form" onSubmit={submit}>
                             <div className="card-header">
-                                <Link href="/marques" className="btn btn-primary">
-                                    Liste des marques <FaIcon icon={faList} />
+                                <Link href="/paiements" className="btn btn-primary">
+                                    Liste des états de paiement <FaIcon icon={faList} />
                                 </Link>
                             </div>
                             <div className="card-body overflow-hidden">
                                 <div className="row mb-3">
-                                    <div className="col-6">
-                                        <label className="form-label">Nom</label>
-                                        <input type="text" className="form-control" placeholder="Rakoto" required
-                                               onChange={(e) => {setData({...data, nom: e.target.value,})}}
-                                               value={data.nom}
+                                    <div className="col-12">
+                                        <label className="form-label">Désignation</label>
+                                        <input type="text" className="form-control" placeholder="chèque" required
+                                               onChange={(e) => {
+                                                   setData({...data, designation: e.target.value,})}}
+                                               value={data.designation}
                                         />
                                     </div>
                                 </div>

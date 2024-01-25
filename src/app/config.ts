@@ -16,7 +16,7 @@ export const NAVBAR_MENU = [
     {
         name: 'Annonce',
         icon: faBullhorn,
-        link: '/annonces',
+        link: '/annonces/en-attente',
     },
     {
         name: 'Administration',
@@ -28,19 +28,19 @@ export const NAVBAR_MENU = [
             },
             {
                 name: 'Commission',
-                link: '/modeles',
+                link: '/commissions',
             },
             {
                 name: 'Paiement',
-                link: '/marques',
+                link: '/paiements',
             },
             {
                 name: 'Voiture',
-                link: '/pays',
+                link: '/voitures',
             },
             {
                 name: 'Fichier',
-                link: '/pays',
+                link: '/fichiers',
             },
         ],
     },
@@ -57,8 +57,8 @@ export const NAVBAR_MENU = [
                 link: '/modeles',
             },
             {
-                name: 'Sortie',
-                link: '/modeles',
+                name: 'Sortie de voiture',
+                link: '/sortie_voitures',
             },
         ],
     },
@@ -68,23 +68,23 @@ export const NAVBAR_MENU = [
         childrenNav: [
             {
                 name: 'Boite de vitesse',
-                link: '/pays',
+                link: '/boite_vitesses',
             },
             {
                 name: 'Couleur',
-                link: '/pays',
+                link: '/couleurs',
             },
             {
                 name: 'Energie',
-                link: '/pays',
+                link: '/energies',
             },
             {
                 name: 'Etat de voiture',
-                link: '/pays',
+                link: '/etat_voitures',
             },
             {
                 name: 'Options',
-                link: '/pays',
+                link: '/options',
             },
             {
                 name: 'Pays',

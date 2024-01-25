@@ -7,30 +7,42 @@ import Table from "@/app/(core)/ui/Table";
 import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faEdit, faPlus, faTrashAlt, faWarning} from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
-export default function Marques()
+export default function Energies()
 {
-    const [data] = useGet(API_URL+"marques");
+    const [data] = useGet(API_URL+"couleurs");
 
-    function Delete(id: string) {
-        sendDelete(`${API_URL}marques/${id}`);
+    async function Delete(id: string) {
+        await sendDelete(`${API_URL}couleurs/${id}`);
         window?.location?.reload();
+    }
+
+    function ColorTemplate(row: any) {
+        return (
+            <div style={{
+                backgroundColor:row.codeCouleur,
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
+            }}/>
+        );
     }
 
     function Actions(row: any) {
         return (
             <>
                 <p className="p-buttonset">
-                    <a href={`/marques/modifier/${row.id}`} className={"btn btn-warning btn-icon mx-1"}>
+                    <a href={`/couleurs/modifier/${row.id}`} className={"btn btn-warning btn-icon mx-1"}>
                         <FaIcon icon={faEdit}/>
                     </a>
-                    <button data-bs-target={`#/marques/supprimer/${row.id}`} className={"btn btn-danger btn-icon mx-1"}
+                    <button data-bs-target={`#/couleurs/supprimer/${row.id}`} className={"btn btn-danger btn-icon mx-1"}
                             data-bs-toggle="modal">
                         <FaIcon icon={faTrashAlt}/>
                     </button>
                 </p>
-                <ConfirmationModal id={`/marques/supprimer/${row.id}`}
+                <ConfirmationModal id={`/couleurs/supprimer/${row.id}`}
                                    title={"Confirmer la suppression"}
-                                   message={"Supprimer la marque supprimera toutes les données qui lui sont liées."}
+                                   message={"Supprimer la couleur supprimera toutes les données qui lui sont liées."}
                                    type="danger" icon={faWarning}
                                    action={()=>{Delete(row.id)}}
                                    actionButton={"Supprimer"} />
@@ -45,7 +57,7 @@ export default function Marques()
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Les marques de voiture
+                                Les couleurs
                             </h2>
                         </div>
                     </div>
@@ -55,14 +67,16 @@ export default function Marques()
                 <div className="container-xl">
                     <div className="card">
                         <div className="card-header">
-                            <a href="/marques/ajouter" className={"btn btn-primary"}>
-                                Ajouter une marque
+                            <a href="/couleurs/ajouter" className={"btn btn-primary"}>
+                                Ajouter une couleur
                                 <FaIcon icon={faPlus} />
                             </a>
                         </div>
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
                                 <Column field="nom" header="Nom" sortable filter/>
+                                <Column field="codeCouleur" header="Code couleur" sortable filter/>
+                                <Column header="Aperçu" body={ColorTemplate}/>
                                 <Column header="Actions" body={Actions} style={{width: "10%"}}/>
                             </Table>
                         </div>
