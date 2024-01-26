@@ -1,7 +1,7 @@
 'use client';
 import {sendDelete, useGet} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Column} from "primereact/column";
 import Table from "@/app/(core)/ui/Table";
 import FaIcon from "@/app/(core)/ui/FaIcon";
@@ -9,11 +9,17 @@ import {
     faClockRotateLeft,
     faEdit
 } from "@fortawesome/free-solid-svg-icons";
-import ConfirmationModal from "@/app/(core)/ui/ConfirmationModal";
+
 export default function Liste()
 {
-    const [data] = useGet(API_URL+"commissions");
+    const [date, setDate] = useState(new Date());
+    const [data, setData] = useGet(API_URL+"commissions?dateTime="+date.toISOString().slice(0, 16));
 
+
+    useEffect(() => {
+        setData(null);
+    }, [date, setData]);
+    
     return (
         <>
             <div className="page-header d-print-none">
@@ -21,7 +27,7 @@ export default function Liste()
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <h2 className="page-title">
-                                Commissions appliquées actuellement
+                                Commissions appliquées le {date.toLocaleDateString()} à {date.toLocaleTimeString()}
                             </h2>
                         </div>
                     </div>
@@ -29,6 +35,18 @@ export default function Liste()
             </div>
             <div className="page-body">
                 <div className="container-xl">
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <form>
+                                <label>Voir la commission d&apos;une autre date et heure</label>
+                                <input type="datetime-local" className="form-control" name="date"
+                                       value={date.toISOString().slice(0, 16)}
+                                       onChange={(e) => setDate(new Date(e.target.value))}
+                                       required/>
+                            </form>
+                        </div>
+                    </div>
+
                     <div className="card">
                         <div className="card-header">
                             <a href="/commissions/historique" className={"btn btn-secondary"}>
