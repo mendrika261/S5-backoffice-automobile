@@ -4,6 +4,7 @@ import {Dispatch, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "@/app/(core)/utils/storage";
+import {API_URL} from "@/app/config";
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
 
@@ -41,6 +42,9 @@ export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispa
     return [data, setData];
 }
 
+
+
+
 export async function sendPost(url: string, form: any) {
     await AXIOS.post(url, form, {
         headers: {
@@ -59,6 +63,30 @@ export async function sendPost(url: string, form: any) {
             else
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
+}
+
+export async function sendPostConnexion(form: any) {
+    console.log(form.email+"   heyy "+form.motDePasse);
+    await AXIOS.post('http://localhost:8080/connexion',form,{
+        headers: {
+            'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+        .then(function (response:any):void {
+            // Accédez à la valeur du champ 'value'
+            window.localStorage.setItem('token', response.data.data.value);
+            if (response.data.message !== undefined && response.data.message !== null)
+                toast(response.data.message, {type: response.data.status});
+        })
+        .catch(function (error:any) {
+            console.log(error)
+            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+            else
+                toast.error(DEFAULT_ERROR_MESSAGE);
+        });
+
 }
 
 export async function sendPut(url: string, form: any) {
@@ -80,6 +108,9 @@ export async function sendPut(url: string, form: any) {
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
 }
+
+
+
 
 export async function sendDelete(url: string) {
     await AXIOS.delete(url, {

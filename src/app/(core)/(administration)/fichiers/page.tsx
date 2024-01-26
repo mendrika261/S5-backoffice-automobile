@@ -30,7 +30,9 @@ export default function Fichiers()
         submitButton.classList.add("btn-loading");
         if(file!=null)
         {
-            setData({...data, nomAvecChemin: `tests/${uuidv4()}`})
+            const lieu=`tests/${file.name}haha`
+            console.log(lieu)
+            setData({...data, nomAvecChemin: lieu})
             await upload_photo({file: file, nom: data.nomAvecChemin});
             await sendPost(API_URL + 'fichiers', data);
             const storageRef = ref(storage, data.nomAvecChemin);
@@ -68,6 +70,7 @@ export default function Fichiers()
                     </div>
                 </form>
             </div>
+            {url===null? <h1>haha</h1>: <img src={url} alt=""/>}
         </div>
     </>;
-}
+            }
