@@ -36,7 +36,7 @@ export default function Fichiers()
             const storageRef = ref(storage, data.nomAvecChemin);
             setUrl(await getDownloadURL(storageRef))
         }
-        submitButton.classList.remove("btn-loading");``
+        submitButton.classList.remove("btn-loading");
     }
     return <>
         <div className="page-header d-print-none">

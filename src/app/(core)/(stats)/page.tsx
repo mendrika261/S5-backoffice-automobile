@@ -1,7 +1,6 @@
 "use client";
 
 import GlobalNumber from "@/app/(core)/(stats)/ui/globalNumber";
-import Courbe from "@/app/(core)/(stats)/ui/courbe";
 import {Chart} from "primereact/chart";
 import React, {useEffect, useState} from "react";
 import GlobalNumberIcon from "@/app/(core)/(stats)/ui/globalNumberIcon";
