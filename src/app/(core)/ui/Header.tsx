@@ -1,6 +1,11 @@
+'use client'
 import Image from "next/image";
+import {sendDelete, sendPost, useGet} from "@/app/(core)/utils/hooks";
+import {API_URL} from "@/app/config";
 
 export default function Header() {
+
+
     return (
         <header className="navbar navbar-expand-md d-print-none">
             <div className="container-xl">
@@ -184,7 +189,7 @@ export default function Header() {
                             <a href="#" className="dropdown-item">Feedback</a>
                             <div className="dropdown-divider"></div>
                             <a href="" className="dropdown-item">Settings</a>
-                            <a href="" className="dropdown-item">Logout</a>
+                            <a href="" onClick={()=>{sendDelete(API_URL+"deconnexion"); window?.localStorage?.removeItem('token'); } } className="dropdown-item">Logout</a>
                         </div>
                     </div>
                 </div>
