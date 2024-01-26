@@ -1,6 +1,7 @@
 'use client'
 import {useState} from "react";
 import {sendPost, sendPostConnexion} from "@/app/(core)/utils/hooks";
+import {API_URL} from "@/app/config";
 
 export default function Connexion()
 {
@@ -15,7 +16,6 @@ export default function Connexion()
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        console.log(data.email+ "  aona "+data.motDePasse)
         await sendPostConnexion(data);
         submitButton.classList.remove("btn-loading");
     }
@@ -29,7 +29,7 @@ export default function Connexion()
                 <div className="card card-md">
                     <div className="card-body">
                         <h2 className="h2 text-center mb-4">Login to your account</h2>
-                        <form action="" method="get" onSubmit={submit}  >
+                        <form onSubmit={submit} id="form">
                             <div className="mb-3">
                                 <label className="form-label">Email address</label>
                                 <input type="email" className="form-control"  placeholder="your@email.com" value={data.email} onChange={(e) => {
