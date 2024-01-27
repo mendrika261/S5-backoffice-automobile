@@ -4,8 +4,8 @@ export default function GlobalNumber(
             titre: string,
             pourcentage: number,
             description: string,
-            nombre: number
-            nombreTotal: number
+            nombre: string
+            nombreTotal: string
         }
 ) {
     return (

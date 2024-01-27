@@ -86,7 +86,7 @@ export default function Home() {
                       }
                       {expireData &&
                       <GlobalNumber
-                          titre={"Validation annonce"} pourcentage={expireData[2]} description={"Validé"}
+                          titre={"Validation annonce"} pourcentage={expireData[2]} description={"Annonce validé"}
                           nombre={expireData[0]} nombreTotal={expireData[1]}
                       />}
 
