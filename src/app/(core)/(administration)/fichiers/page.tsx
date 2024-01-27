@@ -1,28 +1,30 @@
 'use client'
+
 import FaIcon from "@/app/(core)/ui/FaIcon";
-import {faList, faSave} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
-import {getDownloadURL,ref} from "firebase/storage"
-import {sendPost, upload_photo} from "@/app/(core)/utils/hooks";
-import {API_URL} from "@/app/config";
+import {faList, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {getFile, sendPost, upload_file} from "@/app/(core)/utils/hooks";
 import {uuidv4} from "@firebase/util";
-import {storage} from "@/app/(core)/utils/storage";
+import Image from "next/image";
 
 export default function Fichiers()
 {
     const [file, setFile] = useState<File | null>(null);
+    const [loading, setLoading] = useState(0);
     const [data, setData] = useState({
         etat: 0,
-        nomAvecChemin: '',
-        type: 'image',
+        lien: '',
+        type: '',
     });
-    const [url,setUrl]=useState('')
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const [url, setUrl] = useState("");
+
+    function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
         if (event.target.files) {
             setFile(event.target.files[0]);
-            setData({...data, nomAvecChemin: `tests/${file?.name}`})
+            setData({...data, type: event.target.files[0].type});
         }
-    };
+    }
+
     async function submit(object: any) {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
@@ -30,16 +32,14 @@ export default function Fichiers()
         submitButton.classList.add("btn-loading");
         if(file!=null)
         {
-            const lieu=`tests/${file.name}haha`
-            console.log(lieu)
-            setData({...data, nomAvecChemin: lieu})
-            await upload_photo({file: file, nom: data.nomAvecChemin});
-            await sendPost(API_URL + 'fichiers', data);
-            const storageRef = ref(storage, data.nomAvecChemin);
-            setUrl(await getDownloadURL(storageRef))
+            const nom = uuidv4();
+            data.lien = nom;
+            await upload_file(file, data, setLoading);
+            setUrl(await getFile(nom));
         }
         submitButton.classList.remove("btn-loading");
     }
+
     return <>
         <div className="page-header d-print-none">
             <div className="container-xl">
@@ -56,12 +56,64 @@ export default function Fichiers()
             <div className="container-xl">
                 <form className="card" id="form" onSubmit={submit}>
                     <div className="card-body overflow-hidden">
+                        <div className="alert alert-info" role="alert">
+                            <div className="d-flex">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon alert-icon" width="24"
+                                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                        <path d="M12 9h.01"></path>
+                                        <path d="M11 12h1v4h1"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    Vous pouvez ajouter un fichier ici et recevoir son lien publique pour l&apos;inclure
+                                    dans d&apos;autres pages.
+                                </div>
+                            </div>
+                        </div>
                         <div className="mb-3">
                             <label className="form-label">Fichier</label>
-                            <input type="file" className="form-control"
-                                   onChange={handleFileChange}
-                            />
+                            <input type="file" className="form-control" required
+                                   onChange={handleFileChange}/>
                         </div>
+                        <div className="progress mb-2">
+                            <div className="progress-bar" style={{width: `${loading}%`}} role="progressbar">
+                                <span className="visually-hidden">{loading}% Complete</span>
+                            </div>
+                        </div>
+                        {(url != null && url != "") &&
+                            <>
+                                <div className="mb-2">
+                                    <div className="input-icon">
+                                        <input type="text" value={url}
+                                               className="form-control" placeholder="Search…" readOnly={true}/>
+                                        <span className="input-icon-addon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24"
+                                                 height="24"
+                                                 viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none"
+                                                 strokeLinecap="round" strokeLinejoin="round"><path stroke="none"
+                                                                                                    d="M0 0h24v24H0z"
+                                                                                                    fill="none"></path><path
+                                                d="M15 3v4a1 1 0 0 0 1 1h4"></path><path
+                                                d="M18 17h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h4l5 5v7a2 2 0 0 1 -2 2z"></path><path
+                                                d="M16 17v2a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h2"></path></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="mb-2 h-100">
+                                    <Image
+                                        src={url}
+                                        alt="image"
+                                        width={0}
+                                        height={0}
+                                        layout="responsive"
+                                    />
+                                </div>
+                            </>
+                        }
                     </div>
                     <div className="card-footer d-flex justify-content-end">
                         <button type="submit" className="btn btn-success" id="submit">
@@ -70,7 +122,6 @@ export default function Fichiers()
                     </div>
                 </form>
             </div>
-            {url===null? <h1>haha</h1>: <img src={url} alt=""/>}
         </div>
     </>;
-            }
+}

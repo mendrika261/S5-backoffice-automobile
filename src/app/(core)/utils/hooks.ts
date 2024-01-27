@@ -2,11 +2,13 @@
 
 import {Dispatch, useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import {ref, uploadBytesResumable} from "firebase/storage";
+import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "@/app/(core)/utils/storage";
 import {API_URL} from "@/app/config";
+
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
+const FIREBASE_PREFIX = "fichiers";
 
 export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispatch<any>] {
     const [data, setData] = useState(null);
@@ -143,35 +145,42 @@ function isImage(file: File): boolean {
     return allowedExtensions.includes(<string>extension);
 }
 
-
-export async function upload_photo({file, nom}: { file: File, nom: any }) {
-    // Votre configuration Firebase
-
-    if (!isImage(file)) {
-        toast.error("le fichier n'est pas une image");
-        return null;
-    }
-    const imageRef=ref(storage,nom);
-
-    const uploadTask = uploadBytesResumable(imageRef, file)
-    uploadTask.on('state_changed',
-        (snapshot) => {
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-        },
-        (error) => {
-            console.log(error);
-            // Handle unsuccessful uploads
-            toast.error(error.message);
-        },
-        () => {
-            // Handle successful uploads on complete
-            console.log('Upload completed successfully');
-            toast.done('Upload completed successfully')
-        }
-    );
+export async function remove_file(nom: string) {
+    if (nom === null || nom === undefined || nom === "")
+        return;
+    const imageRef= ref(storage, `${FIREBASE_PREFIX}/${nom}`);
+    await deleteObject(imageRef);
 }
 
+export async function upload_file(file: File, data: any, setLoading: any) {
+    const imageRef= ref(storage, `${FIREBASE_PREFIX}/${data.lien}`);
+
+    const uploadTask = uploadBytesResumable(imageRef, file)
+    await new Promise<void>((resolve, reject) => {
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setLoading(progress);
+            },
+            (error) => {
+                console.log(error);
+                toast.error(error.message);
+                remove_file(data.lien);
+                reject(error);
+            },
+            async () => {
+                await sendPost(API_URL+'fichiers', data);
+                resolve();
+            }
+        );
+    });
+}
+
+export async function getFile(nom: string) {
+    if (nom === null || nom === undefined || nom === "")
+        return "";
+    const storageRef = ref(storage, `${FIREBASE_PREFIX}/${nom}`);
+    return await getDownloadURL(storageRef)
+}
 
 
