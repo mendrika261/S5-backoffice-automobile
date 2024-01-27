@@ -100,7 +100,8 @@ export async function sendPostConnexion(form: any) : Promise<any> {
 
 }
 
-export async function sendPut(url: string, form: any) {
+export async function sendPut(url: string, form: any): Promise<any> {
+    let responseData = null;
     await AXIOS.put(url, form, {
         headers: {
             'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
@@ -108,6 +109,8 @@ export async function sendPut(url: string, form: any) {
         }
     })
         .then(function (response: any) {
+            if (response.data.data !== undefined && response.data.data !== null)
+                responseData = response.data.data;
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
@@ -118,6 +121,7 @@ export async function sendPut(url: string, form: any) {
             else
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
+    return responseData;
 }
 
 
@@ -148,7 +152,7 @@ export async function sendDelete(url: string): Promise<any> {
 }
 
 
-function isImage(file: File): boolean {
+export function isImage(file: File): boolean {
     const extension = file.name.split('.').pop();
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
     return allowedExtensions.includes(<string>extension);
@@ -161,7 +165,12 @@ export async function remove_file(nom: string) {
     await deleteObject(imageRef);
 }
 
-export async function upload_file(file: File, data: any, setLoading: any): Promise<any> {
+export async function upload_file(file: File, setLoading: any): Promise<any> {
+    if(file.size > 1000000) {
+        toast.error("La taille d'un fichier ne doit pas dépasser 1Mo");
+        return {};
+    }
+
     const path = `${FIREBASE_PREFIX}/${uuidv4()}`;
     const imageRef= ref(storage, path);
     const uploadTask = uploadBytesResumable(imageRef, file);
@@ -175,10 +184,11 @@ export async function upload_file(file: File, data: any, setLoading: any): Promi
             (error) => {
                 console.log(error);
                 toast.error(error.message);
-                remove_file(data.lien);
+                remove_file(path);
                 reject(error);
             },
             async () => {
+                const data: any = {};
                 data.type = file.type;
                 data.lien = path;
                 fileObject = await sendPost(API_URL+'fichiers', data, true);

@@ -25,10 +25,12 @@ export default function AjouterUtilisateur() {
         object.preventDefault();
         const submitButton = document.getElementById('submit') as HTMLButtonElement;
         submitButton.classList.add("btn-loading");
-        if(file!=null)
+        if(file!=null && file.type.includes("image"))
         {
-            const {id} = await upload_file(file, data, setLoading);
-            data.photo = id;
+            const {id} = await upload_file(file, setLoading);
+            if(id!=null)
+                data.photo = id;
+            else return;
         }
         await sendPost(API_URL + 'utilisateurs', data);
         submitButton.classList.remove("btn-loading");

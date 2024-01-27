@@ -12,10 +12,6 @@ export default function Fichiers()
     const [file, setFile] = useState<File | null>(null);
     const [type, setType] = useState<string>("");
     const [loading, setLoading] = useState(0);
-    const [data, setData] = useState({
-        etat: 0,
-        lien: '',
-    });
     const [url, setUrl] = useState("");
 
     async function submit(object: any) {
@@ -25,9 +21,11 @@ export default function Fichiers()
         submitButton.classList.add("btn-loading");
         if(file!=null)
         {
-            const {lien, type} = await upload_file(file, data, setLoading);
-            setUrl(await getFile(lien));
-            setType(type);
+            const {id, lien, type} = await upload_file(file, setLoading);
+            if(id!=null) {
+                setUrl(await getFile(lien));
+                setType(type);
+            }
         }
         submitButton.classList.remove("btn-loading");
     }

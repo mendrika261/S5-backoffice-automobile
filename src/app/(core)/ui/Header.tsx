@@ -1,11 +1,13 @@
 'use client'
 import Image from "next/image";
-import {sendDelete, sendPost, useGet} from "@/app/(core)/utils/hooks";
+import {sendDelete, sendPost, useGet, useGetFile} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
 import {useEffect, useState} from "react";
 
 export default function Header() {
     const [utilisateur, setUtilisateur] = useState<any>();
+    const [photo, setPhoto] = useGetFile(utilisateur?.photo?.lien);
+
     async function deconnexion() {
         await sendDelete(API_URL+"deconnexion");
         window?.localStorage?.removeItem('token');
@@ -14,10 +16,13 @@ export default function Header() {
 
     useEffect(() => {
         const util = window?.localStorage?.getItem('utilisateur');
-        if(util === null)
+        if(util == null || util == 'null') {
+            deconnexion().then();
             window?.location?.replace('/connexion');
-        // @ts-ignore
-        setUtilisateur(JSON.parse(util));
+        } else {
+            // @ts-ignore
+            setUtilisateur(JSON.parse(util));
+        }
     }, []);
 
     return (
@@ -194,7 +199,7 @@ export default function Header() {
                         <a href="#" className="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                            aria-label="Open user menu">
                                   <span className="avatar avatar-sm"
-                                        style={{backgroundImage: `url(/static/avatars/me.jpg)`}}></span>
+                                        style={{backgroundImage: `url(${photo})`}}></span>
                             <div className="d-none d-xl-block ps-2">
                                 <div>{utilisateur.nomComplet}</div>
                                 <div className="mt-1 small text-muted">Niveau {utilisateur.level}</div>

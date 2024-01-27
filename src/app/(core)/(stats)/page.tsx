@@ -4,11 +4,20 @@ import GlobalNumber from "@/app/(core)/(stats)/ui/globalNumber";
 import {Chart} from "primereact/chart";
 import React, {useEffect, useState} from "react";
 import GlobalNumberIcon from "@/app/(core)/(stats)/ui/globalNumberIcon";
-import {faBullhorn, faCar, faCarBurst, faCashRegister, faUser, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {
+    faBullhorn,
+    faCar,
+    faCarBurst,
+    faCashRegister,
+    faHistory,
+    faUser,
+    faUsers
+} from "@fortawesome/free-solid-svg-icons";
 import Table from "@/app/(core)/ui/Table";
 import {Column} from "primereact/column";
 import {useGet} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
+import FaIcon from "@/app/(core)/ui/FaIcon";
 
 export default function Home() {
     const [chartOptions, setChartOptions] = useState({});
@@ -109,6 +118,11 @@ export default function Home() {
                           <div className="card">
                               <div className="card-header">
                                   <h3 className="card-title">Plage de commission actuelle MGA</h3>
+                                  <div className="card-actions">
+                                      <a href="/commissions" className="btn btn-info btn-icon">
+                                          <FaIcon icon={faHistory}/>
+                                      </a>
+                                  </div>
                               </div>
                               <div className="card-body card-body-scrollable card-body-scrollable-shadow">
                                   <Table data={commission} props={{paginator: false}}>
