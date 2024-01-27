@@ -15,8 +15,6 @@ export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispa
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        if(window?.localStorage?.getItem('token')===null)
-            window?.location?.replace('/connexion');
         AXIOS.get(url, {
             headers: {
                 'Authorization': 'Bearer ' + window?.localStorage?.getItem('token')
@@ -83,8 +81,10 @@ export async function sendPostConnexion(form: any) : Promise<any> {
     })
         .then(function (response:any):void {
             console.log(response);
-            if(response.data.data != null && response.data.data.value!==undefined && response.data.data.value!==null)
+            if(response.data.data != null && response.data.data.value!==undefined && response.data.data.value!==null) {
                 window?.localStorage?.setItem('token', response.data.data.value);
+                window?.localStorage?.setItem('utilisateur', JSON.stringify(response.data.data.utilisateur));
+            }
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
             if(window?.localStorage?.getItem('token')!==null)

@@ -2,9 +2,23 @@
 import Image from "next/image";
 import {sendDelete, sendPost, useGet} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
+import {useEffect, useState} from "react";
 
 export default function Header() {
+    const [utilisateur, setUtilisateur] = useState<any>();
+    async function deconnexion() {
+        await sendDelete(API_URL+"deconnexion");
+        window?.localStorage?.removeItem('token');
+        window?.localStorage?.removeItem('utilisateur');
+    }
 
+    useEffect(() => {
+        const util = window?.localStorage?.getItem('utilisateur');
+        if(util === null)
+            window?.location?.replace('/connexion');
+        // @ts-ignore
+        setUtilisateur(JSON.parse(util));
+    }, []);
 
     return (
         <header className="navbar navbar-expand-md navbar-overlap d-print-none">
@@ -22,7 +36,7 @@ export default function Header() {
                 </h1>
                 <div className="navbar-nav flex-row order-md-last">
                     <div className="d-none d-md-flex">
-                        <a href="?theme=dark" className="nav-link px-0 hide-theme-dark" title="Enable dark mode"
+                        <a href="?theme=dark" className="nav-link px-0 hide-theme-dark" title="Activer le mode sombre"
                            data-bs-toggle="tooltip"
                            data-bs-placement="bottom">
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24"
@@ -45,6 +59,7 @@ export default function Header() {
                                     d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"/>
                             </svg>
                         </a>
+                        {/*
                         <div className="nav-item dropdown d-none d-md-flex me-3">
                             <a href="#" className="nav-link px-0" data-bs-toggle="dropdown" tabIndex={-1}
                                aria-label="Show notifications">
@@ -172,26 +187,26 @@ export default function Header() {
                                 </div>
                             </div>
                         </div>
+                        */}
                     </div>
+                    {utilisateur &&
                     <div className="nav-item dropdown">
                         <a href="#" className="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                            aria-label="Open user menu">
                                   <span className="avatar avatar-sm"
                                         style={{backgroundImage: `url(/static/avatars/me.jpg)`}}></span>
                             <div className="d-none d-xl-block ps-2">
-                                <div>mendrika261</div>
-                                <div className="mt-1 small text-muted">Admin</div>
+                                <div>{utilisateur.nomComplet}</div>
+                                <div className="mt-1 small text-muted">Niveau {utilisateur.level}</div>
                             </div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="#" className="dropdown-item">Status</a>
-                            <a href="" className="dropdown-item">Profile</a>
-                            <a href="#" className="dropdown-item">Feedback</a>
+                            <a href="/parametres" className="dropdown-item">Paramètres</a>
                             <div className="dropdown-divider"></div>
-                            <a href="" className="dropdown-item">Settings</a>
-                            <a href="" onClick={()=>{sendDelete(API_URL+"deconnexion"); window?.localStorage?.removeItem('token'); } } className="dropdown-item">Logout</a>
+                            <a href="" onClick={deconnexion} className="dropdown-item">Déconnexion</a>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </header>
