@@ -29,8 +29,8 @@ export default function AjouterUtilisateur() {
         {
             const {id} = await upload_file(file, data, setLoading);
             data.photo = id;
-            await sendPost(API_URL + 'utilisateurs', data);
         }
+        await sendPost(API_URL + 'utilisateurs', data);
         submitButton.classList.remove("btn-loading");
     }
 

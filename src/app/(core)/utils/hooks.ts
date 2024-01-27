@@ -123,7 +123,8 @@ export async function sendPut(url: string, form: any) {
 
 
 
-export async function sendDelete(url: string) {
+export async function sendDelete(url: string): Promise<any> {
+    let responseData = null;
     await AXIOS.delete(url, {
         headers: {
             'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
@@ -131,6 +132,8 @@ export async function sendDelete(url: string) {
         }
     })
         .then(function (response: any) {
+            if (response.data.data !== undefined && response.data.data !== null)
+                responseData = response.data.data;
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
@@ -141,6 +144,7 @@ export async function sendDelete(url: string) {
             else
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
+    return responseData;
 }
 
 
@@ -153,7 +157,7 @@ function isImage(file: File): boolean {
 export async function remove_file(nom: string) {
     if (nom === null || nom === undefined || nom === "")
         return;
-    const imageRef= ref(storage, `${FIREBASE_PREFIX}/${nom}`);
+    const imageRef= ref(storage, `${nom}`);
     await deleteObject(imageRef);
 }
 
@@ -178,6 +182,8 @@ export async function upload_file(file: File, data: any, setLoading: any): Promi
                 data.type = file.type;
                 data.lien = path;
                 fileObject = await sendPost(API_URL+'fichiers', data, true);
+                if (fileObject === null)
+                    await remove_file(data.lien);
                 resolve();
             }
         );
@@ -189,7 +195,19 @@ export async function getFile(nom: string) {
     if (nom === null || nom === undefined || nom === "")
         return "";
     const storageRef = ref(storage, `${nom}`);
-    return await getDownloadURL(storageRef)
+    return await getDownloadURL(storageRef);
 }
 
+export function useGetFile(nom: string): [string, Dispatch<any>] {
+    const [data, setData] = useState("");
+    useEffect(() => {
+        getFile(nom).then((url) => {
+            setData(url);
+        }).catch(function (error: any) {
+            console.log(error);
+            toast.error(DEFAULT_ERROR_MESSAGE);
+        });
+    }, [nom]);
+    return [data, setData];
+}
 

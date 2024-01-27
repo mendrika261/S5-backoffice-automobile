@@ -1,6 +1,6 @@
 'use client';
 
-import {sendDelete, useGet} from "@/app/(core)/utils/hooks";
+import {remove_file, sendDelete, useGet} from "@/app/(core)/utils/hooks";
 import {API_URL} from "@/app/config";
 import React from "react";
 import {Column} from "primereact/column";
@@ -12,8 +12,12 @@ export default function Utilisateurs() {
     const [data, setData] = useGet(API_URL + 'utilisateurs');
 
     async function Delete(id: string) {
-        await sendDelete(`${API_URL}utilisateurs/${id}`);
-        window?.location?.reload();
+        const utilisateur = await sendDelete(`${API_URL}utilisateurs/${id}`);
+        if(utilisateur != null && utilisateur.photo != null)
+            await remove_file(utilisateur.photo.lien);
+        setTimeout(()=> {
+            window?.location?.replace("/utilisateurs");
+        }, 1200)
     }
 
 
