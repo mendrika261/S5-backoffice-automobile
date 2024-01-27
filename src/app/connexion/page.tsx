@@ -46,8 +46,8 @@ export default function Connexion()
                         <div className="col-lg">
                             <div className="container-tight">
                                 <div className="text-center mb-4">
-                                    <a href=".." className="navbar-brand navbar-brand-autodark"><img
-                                        src="/static/logo.svg" height="36" alt=""/></a>
+                                    <a href=".." className="navbar-brand navbar-brand-autodark"><Image
+                                        src="/static/logo.svg" height="36" width="36" alt=""/></a>
                                 </div>
                                 <div className="card card-md">
                                     <div className="card-body">

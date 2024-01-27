@@ -108,7 +108,7 @@ export default function Home() {
                       />}
                       {venteNbData &&
                       <GlobalNumberIcon
-                          titre={`${venteNbData[1]} ventes établies`} description={`Commission de MGA ${venteNbData[0]}`}
+                          titre={`${venteNbData[0]} ventes établies`} description={`Commission de MGA ${venteNbData[1]}`}
                           icon={faCashRegister} color={"purple"}
                       />
                       }
