@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "@/app/(core)/utils/storage";
 import {API_URL} from "@/app/config";
+import {uuidv4} from "@firebase/util";
 
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
@@ -49,7 +50,8 @@ export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispa
 
 
 
-export async function sendPost(url: string, form: any) {
+export async function sendPost(url: string, form: any, noToast?: boolean) {
+    let responseData = null;
     await AXIOS.post(url, form, {
         headers: {
             'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
@@ -57,7 +59,9 @@ export async function sendPost(url: string, form: any) {
         }
     })
         .then(function (response: any) {
-            if (response.data.message !== undefined && response.data.message !== null)
+            if (response.data.data !== undefined && response.data.data !== null)
+                responseData = response.data.data;
+            if (!noToast && response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
         .catch(function (error: any) {
@@ -67,9 +71,10 @@ export async function sendPost(url: string, form: any) {
             else
                 toast.error(DEFAULT_ERROR_MESSAGE);
         });
+    return responseData;
 }
 
-export async function sendPostConnexion(form: any) {
+export async function sendPostConnexion(form: any) : Promise<any> {
     await AXIOS.post(API_URL+'connexion', form,{
         headers: {
             'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
@@ -152,10 +157,11 @@ export async function remove_file(nom: string) {
     await deleteObject(imageRef);
 }
 
-export async function upload_file(file: File, data: any, setLoading: any) {
-    const imageRef= ref(storage, `${FIREBASE_PREFIX}/${data.lien}`);
-
-    const uploadTask = uploadBytesResumable(imageRef, file)
+export async function upload_file(file: File, data: any, setLoading: any): Promise<any> {
+    const path = `${FIREBASE_PREFIX}/${uuidv4()}`;
+    const imageRef= ref(storage, path);
+    const uploadTask = uploadBytesResumable(imageRef, file);
+    let fileObject = null;
     await new Promise<void>((resolve, reject) => {
         uploadTask.on('state_changed',
             (snapshot) => {
@@ -169,17 +175,20 @@ export async function upload_file(file: File, data: any, setLoading: any) {
                 reject(error);
             },
             async () => {
-                await sendPost(API_URL+'fichiers', data);
+                data.type = file.type;
+                data.lien = path;
+                fileObject = await sendPost(API_URL+'fichiers', data, true);
                 resolve();
             }
         );
     });
+    return fileObject;
 }
 
 export async function getFile(nom: string) {
     if (nom === null || nom === undefined || nom === "")
         return "";
-    const storageRef = ref(storage, `${FIREBASE_PREFIX}/${nom}`);
+    const storageRef = ref(storage, `${nom}`);
     return await getDownloadURL(storageRef)
 }
 

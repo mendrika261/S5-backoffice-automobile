@@ -4,26 +4,19 @@ import FaIcon from "@/app/(core)/ui/FaIcon";
 import {faList, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {getFile, sendPost, upload_file} from "@/app/(core)/utils/hooks";
-import {uuidv4} from "@firebase/util";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function Fichiers()
 {
     const [file, setFile] = useState<File | null>(null);
+    const [type, setType] = useState<string>("");
     const [loading, setLoading] = useState(0);
     const [data, setData] = useState({
         etat: 0,
         lien: '',
-        type: '',
     });
     const [url, setUrl] = useState("");
-
-    function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-        if (event.target.files) {
-            setFile(event.target.files[0]);
-            setData({...data, type: event.target.files[0].type});
-        }
-    }
 
     async function submit(object: any) {
         object.preventDefault();
@@ -32,10 +25,9 @@ export default function Fichiers()
         submitButton.classList.add("btn-loading");
         if(file!=null)
         {
-            const nom = uuidv4();
-            data.lien = nom;
-            await upload_file(file, data, setLoading);
-            setUrl(await getFile(nom));
+            const {lien, type} = await upload_file(file, data, setLoading);
+            setUrl(await getFile(lien));
+            setType(type);
         }
         submitButton.classList.remove("btn-loading");
     }
@@ -60,8 +52,8 @@ export default function Fichiers()
                             <div className="d-flex">
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon alert-icon" width="24"
-                                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                         height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
+                                         fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
                                         <path d="M12 9h.01"></path>
@@ -77,7 +69,7 @@ export default function Fichiers()
                         <div className="mb-3">
                             <label className="form-label">Fichier</label>
                             <input type="file" className="form-control" required
-                                   onChange={handleFileChange}/>
+                                   onChange={(e) => {setFile(e.target.files![0])}}/>
                         </div>
                         <div className="progress mb-2">
                             <div className="progress-bar" style={{width: `${loading}%`}} role="progressbar">
@@ -88,6 +80,7 @@ export default function Fichiers()
                             <>
                                 <div className="mb-2">
                                     <div className="input-icon">
+                                        <label className="form-label">Type: {type}</label>
                                         <input type="text" value={url}
                                                className="form-control" placeholder="Search…" readOnly={true}/>
                                         <span className="input-icon-addon">
@@ -104,13 +97,14 @@ export default function Fichiers()
                                     </div>
                                 </div>
                                 <div className="mb-2 h-100">
-                                    <Image
+                                    { type.startsWith("image") &&
+                                        <Image
                                         src={url}
                                         alt="image"
                                         width={0}
                                         height={0}
                                         layout="responsive"
-                                    />
+                                    />}
                                 </div>
                             </>
                         }
