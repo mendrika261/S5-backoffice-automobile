@@ -11,10 +11,10 @@ export default function NotFound() {
             <div className="page page-center mt-8">
                 <div className="container-tight py-4">
                     <div className="empty">
-                        <div className="empty-header">404</div>
-                        <p className="empty-title">Oops… La page n&apos;existe pas</p>
+                        <div className="empty-header">403</div>
+                        <p className="empty-title">Accès refusé</p>
                         <p className="empty-subtitle text-secondary">
-                            Nous sommes désolés mais la page que vous recherchez n&apos;a pas été trouvée
+                            Vous n&apos;avez pas la permission d&apos;accéder à cette page.
                         </p>
                         <div className="empty-action">
                             <button className="btn btn-primary" onClick={() => router.back()}>
@@ -26,7 +26,7 @@ export default function NotFound() {
                                     <path d="M5 12l6 6"/>
                                     <path d="M5 12l6 -6"/>
                                 </svg>
-                                Retour
+                                Retourner
                             </button>
                         </div>
                     </div>

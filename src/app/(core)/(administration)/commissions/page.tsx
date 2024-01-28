@@ -10,11 +10,15 @@ import {
     faEdit
 } from "@fortawesome/free-solid-svg-icons";
 
+function isValidDate(date: any) {
+    return !isNaN(date.getTime());
+}
+
 export default function Liste()
 {
     const [date, setDate] = useState(new Date());
-    const [data, setData] = useGet(API_URL+"commissions?dateTime="+date.toISOString().slice(0, 16));
-
+    const [data, setData] = useGet(API_URL + "commissions?dateTime="
+        + (isValidDate(date) ? date.toISOString().slice(0,16) : new Date().toISOString().slice(0,16)));
 
     useEffect(() => {
         setData(null);
@@ -41,7 +45,9 @@ export default function Liste()
                                 <label>Voir la commission d&apos;une autre date et heure</label>
                                 <input type="datetime-local" className="form-control" name="date"
                                        value={date.toISOString().slice(0, 16)}
-                                       onChange={(e) => setDate(new Date(e.target.value))}
+                                       onChange={(e) => {
+                                           setDate(new Date(e.target.value));
+                                       }}
                                        required/>
                             </form>
                         </div>
@@ -61,21 +67,24 @@ export default function Liste()
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
                                 <Column field="minPrix" header="Prix min" dataType="numeric" sortable filter
+                                        body={(rowData: any) => {return (<span>{rowData.minPrix.toLocaleString()}</span>);}}
                                     align="right"/>
                                 <Column field="maxPrix" header="Prix max" dataType="numeric" sortable filter
+                                        body={(rowData: any) => {return (<span>{rowData.maxPrix.toLocaleString()}</span>);}}
                                     align="right"/>
                                 <Column field="pourcentage" header="Pourcentage" dataType="numeric" sortable filter
+                                        body={(rowData: any) => {return (<span>{rowData.pourcentage.toLocaleString()}%</span>);}}
                                     align="right"/>
                                 <Column header="Commission minimum" dataType="numeric" sortable filter align="right"
                                         body={(rowData: any) => {
                                     return (
-                                        <span>{rowData.minPrix * rowData.pourcentage / 100}</span>
+                                        <span>{(rowData.minPrix * rowData.pourcentage / 100).toLocaleString()}</span>
                                     );
                                 }}/>
                                 <Column header="Commission maximum" dataType="numeric" sortable filter align="right"
                                         body={(rowData: any) => {
                                     return (
-                                        <span>{rowData.maxPrix * rowData.pourcentage / 100}</span>
+                                        <span>{(rowData.maxPrix * rowData.pourcentage / 100).toLocaleString()}</span>
                                     );
                                 }}/>
                             </Table>

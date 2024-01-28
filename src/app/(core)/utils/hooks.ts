@@ -4,12 +4,29 @@ import {Dispatch, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "@/app/(core)/utils/storage";
-import {API_URL} from "@/app/config";
+import {API_BASE_URL, API_URL} from "@/app/config";
 import {uuidv4} from "@firebase/util";
+import {deconnexion} from "@/app/(core)/utils/deconnexion";
 
 const AXIOS = require('axios').default;
 const DEFAULT_ERROR_MESSAGE = "Vérifier votre connexion internet";
 const FIREBASE_PREFIX = "fichiers";
+
+async function handleErrors(error: any) {
+    if(error.response.status === 401) {
+        deconnexion();
+        window?.location?.replace('/connexion');
+        return;
+    }
+    if(error.response.status === 403) {
+        window?.location?.replace('/403');
+        return;
+    }
+    if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+        toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+    else
+        toast.error(DEFAULT_ERROR_MESSAGE);
+}
 
 export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispatch<any>] {
     const [data, setData] = useState(null);
@@ -21,6 +38,7 @@ export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispa
             }
         })
             .then(function (response: any) {
+
                 if (childrenObjectOnlyId === true) {
                     Object.keys(response.data.data).map((key: any) => {
                         if (typeof response.data.data[key] === 'object'
@@ -33,14 +51,8 @@ export function useGet(url: string, childrenObjectOnlyId?: boolean): [any, Dispa
                 if (response.data.message !== undefined && response.data.message !== null)
                     toast(response.data.message, {type: response.data.status});
             })
-            .catch(function (error: any) {
-                console.log(error);
-                if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
-                    toast(error?.response?.data?.message, {type: error?.response?.data?.status});
-                else
-                    toast.error(DEFAULT_ERROR_MESSAGE);
-            });
-    }, [url, childrenObjectOnlyId]);
+            .catch(handleErrors);
+    }, [url, childrenObjectOnlyId, handleErrors]);
 
     return [data, setData];
 }
@@ -62,20 +74,13 @@ export async function sendPost(url: string, form: any, noToast?: boolean) {
             if (!noToast && response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
-        .catch(function (error: any) {
-            console.log(error);
-            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
-                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
-            else
-                toast.error(DEFAULT_ERROR_MESSAGE);
-        });
+        .catch(handleErrors);
     return responseData;
 }
 
 export async function sendPostConnexion(form: any) : Promise<any> {
-    await AXIOS.post(API_URL+'connexion', form,{
+    await AXIOS.post(API_BASE_URL+'connexion', form,{
         headers: {
-            'Authorization': 'Bearer ' + window?.localStorage?.getItem('token'),
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
@@ -90,13 +95,7 @@ export async function sendPostConnexion(form: any) : Promise<any> {
             if(window?.localStorage?.getItem('token')!==null)
                 window?.location?.replace('/');
         })
-        .catch(function (error:any) {
-            console.log(error)
-            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
-                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
-            else
-                toast.error(DEFAULT_ERROR_MESSAGE);
-        });
+        .catch(handleErrors);
 
 }
 
@@ -114,13 +113,7 @@ export async function sendPut(url: string, form: any): Promise<any> {
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
-        .catch(function (error: any) {
-            console.log(error);
-            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
-                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
-            else
-                toast.error(DEFAULT_ERROR_MESSAGE);
-        });
+        .catch(handleErrors);
     return responseData;
 }
 
@@ -141,13 +134,7 @@ export async function sendDelete(url: string): Promise<any> {
             if (response.data.message !== undefined && response.data.message !== null)
                 toast(response.data.message, {type: response.data.status});
         })
-        .catch(function (error: any) {
-            console.log(error);
-            if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
-                toast(error?.response?.data?.message, {type: error?.response?.data?.status});
-            else
-                toast.error(DEFAULT_ERROR_MESSAGE);
-        });
+        .catch(handleErrors);
     return responseData;
 }
 

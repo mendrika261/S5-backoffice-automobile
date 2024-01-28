@@ -1,18 +1,12 @@
 'use client'
 import Image from "next/image";
-import {sendDelete, sendPost, useGet, useGetFile} from "@/app/(core)/utils/hooks";
-import {API_URL} from "@/app/config";
+import {useGetFile} from "@/app/(core)/utils/hooks";
 import {useEffect, useState} from "react";
+import {deconnexion} from "@/app/(core)/utils/deconnexion";
 
 export default function Header() {
     const [utilisateur, setUtilisateur] = useState<any>();
     const [photo, setPhoto] = useGetFile(utilisateur?.photo?.lien);
-
-    async function deconnexion() {
-        await sendDelete(API_URL+"deconnexion");
-        window?.localStorage?.removeItem('token');
-        window?.localStorage?.removeItem('utilisateur');
-    }
 
     useEffect(() => {
         const util = window?.localStorage?.getItem('utilisateur');

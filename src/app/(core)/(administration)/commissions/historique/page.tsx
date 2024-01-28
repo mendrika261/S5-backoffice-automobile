@@ -51,10 +51,19 @@ export default function Historique()
                         <div className="card-body overflow-hidden">
                             <Table data={data}>
                                 <Column header="Status" body={Status} />
-                                <Column field="dateApplication" header="Date d'application" dataType="date" sortable filter/>
-                                <Column field="minPrix" header="Prix min" dataType="numeric" sortable filter/>
-                                <Column field="maxPrix" header="Prix max" dataType="numeric" sortable filter/>
-                                <Column field="pourcentage" header="Pourcentage" dataType="numeric" sortable filter/>
+                                <Column field="dateApplication" header="Date d'application" dataType="date"
+                                        align={"right"}
+                                        body={(rowData: any) => new Date(rowData.dateApplication).toLocaleString()}
+                                        sortable filter/>
+                                <Column field="minPrix" header="Prix min" dataType="numeric" sortable filter
+                                        align={"right"}
+                                        body={(rowData: any) => {return (<span>{rowData.minPrix.toLocaleString()}</span>);}}/>
+                                <Column field="maxPrix" header="Prix max" dataType="numeric" sortable filter
+                                        align={"right"}
+                                        body={(rowData: any) => {return (<span>{rowData.maxPrix.toLocaleString()}</span>);}}/>
+                                <Column field="pourcentage" header="Pourcentage" dataType="numeric" sortable filter
+                                        align={"right"}
+                                        body={(rowData: any) => {return (<span>{rowData.pourcentage.toLocaleString()}%</span>);}}/>
                             </Table>
                         </div>
                     </div>
