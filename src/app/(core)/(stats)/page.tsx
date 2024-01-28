@@ -66,10 +66,10 @@ export default function Home() {
           <div className="page-body">
               <div className="container-xl">
                   <div className="row row-cards">
-                      {enLigneData &&
+                      {(enLigneData && utilisateurNbData) &&
                       <GlobalNumber
                           titre={"Utilisateur"} pourcentage={enLigneData[2]} description="En ligne"
-                          nombre={enLigneData[0]} nombreTotal={enLigneData[1]}
+                          nombre={enLigneData[0]} nombreTotal={utilisateurNbData[1]}
                       />
                       }
                       {enAttenteData &&

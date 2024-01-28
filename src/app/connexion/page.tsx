@@ -109,7 +109,7 @@ export default function Connexion()
                         </div>
                         <div className="col-lg d-none d-lg-block">
                             <Image src="/static/illustrations/undraw_secure_login_pdn4.svg" height="300" width="300"
-                                   className="d-block mx-auto" alt="" />
+                                   className="d-block mx-auto" alt="" priority={false} />
                         </div>
                     </div>
                 </div>

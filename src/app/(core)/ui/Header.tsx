@@ -11,7 +11,7 @@ export default function Header() {
     useEffect(() => {
         const util = window?.localStorage?.getItem('utilisateur');
         if(util == null || util == 'null') {
-            deconnexion().then();
+            deconnexion();
             window?.location?.replace('/connexion');
         } else {
             // @ts-ignore

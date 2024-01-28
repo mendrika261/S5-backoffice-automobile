@@ -90,12 +90,19 @@ export async function sendPostConnexion(form: any) : Promise<any> {
                 window?.localStorage?.setItem('token', response.data.data.value);
                 window?.localStorage?.setItem('utilisateur', JSON.stringify(response.data.data.utilisateur));
             }
-            if (response.data.message !== undefined && response.data.message !== null)
-                toast(response.data.message, {type: response.data.status});
             if(window?.localStorage?.getItem('token')!==null)
                 window?.location?.replace('/');
+            if (response.data.message !== undefined && response.data.message !== null)
+                toast(response.data.message, {type: response.data.status});
         })
-        .catch(handleErrors);
+        .catch(
+            function (error: any) {
+                if (error?.response?.data?.message !== undefined && error?.response?.data?.message !== null)
+                    toast(error?.response?.data?.message, {type: error?.response?.data?.status});
+                else
+                    toast.error(DEFAULT_ERROR_MESSAGE);
+            }
+        );
 
 }
 

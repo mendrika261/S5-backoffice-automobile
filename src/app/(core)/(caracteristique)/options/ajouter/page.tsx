@@ -68,7 +68,7 @@ export default function AjouterOption() {
                                 <div className="col-9">
                                     <label className="form-label">Valeurs possible</label>
                                     <input type="text" className="form-control" placeholder="sport,eco,normal" required
-                                           pattern={"[a-zA-Z0-9,]+"}
+                                           pattern={"^[a-zA-Z0-9\\sàâäéèêëïîôöùûüÿçÀÂÄÉÈÊËÏÎÔÖÙÛÜŸÇ]+(,[a-zA-Z0-9\\sàâäéèêëïîôöùûüÿçÀÂÄÉÈÊËÏÎÔÖÙÛÜŸÇ]*)*$"}
                                            onChange={(e) => {
                                                setData({...data, valeurs: e.target.value,})
                                            }}
