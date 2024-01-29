@@ -9,8 +9,8 @@ export default function Connexion()
 {
     const [data,setData] =useState(
         {
-            email:'',
-            motDePasse:''
+            email:'zo@gmail.com',
+            motDePasse:'12345678'
         }
     )
 
@@ -57,6 +57,7 @@ export default function Connexion()
                                                 <label className="form-label">Adresse email</label>
                                                 <input type="email" className="form-control"
                                                        onChange={(e) => setData({...data, email: e.target.value})}
+                                                       value={data.email}
                                                        placeholder="votre@email.com" />
                                             </div>
                                             <div className="mb-2">
@@ -67,7 +68,8 @@ export default function Connexion()
                                                     <input type="password" className="form-control"
                                                            placeholder="xxxxxxxx" id="password"
                                                               onChange={(e) => setData({...data, motDePasse: e.target.value})}
-                                                           />
+                                                                value={data.motDePasse}
+                                                    />
                                                     <span className="input-group-text">
                                                       <a href="#" className="link-secondary" title="Afficher mot de passe"
                                                          data-bs-toggle="tooltip" onClick={showPassword}>
